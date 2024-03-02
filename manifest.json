@@ -8,7 +8,7 @@
     "service_worker": "background.js"
   },
   "action": {
-    "default_popup": "coolor.html",
+    "default_popup": "popup.html",
     "default_icon": {
       "16": "images/coolor_extension.png",
       "48": "images/coolor_extension.png",
