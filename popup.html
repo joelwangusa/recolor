@@ -28,6 +28,9 @@
         input[type="color"], input[type="checkbox"] {
             margin-right: 10px;
         }
+        .colorPreview {
+            display: none;
+        }
         .button {
             background-color: #4CAF50; /* Green */
             border: none;
@@ -42,6 +45,9 @@
             border-radius: 4px;
             width: 100%;
         }
+        #saved {
+            display:none;
+        }
     </style>
 </head>
 <body>
@@ -51,18 +57,32 @@
             <label for="toggleExtension">Enable/Disable:</label>
             <input type="checkbox" id="toggleExtension" checked>
         </div>
-        <div>
+        <label for="colorScheme">Color Scheme:</label>
+        <select id="colorScheme">
+            <option value="custom">Custom</option>
+            <option value="protanopia">Protanopia/Deuteranopia</option>
+            <option value="tritanopia">Tritanopia</option>
+            <option value="monochromacy">Monochromacy</option>
+        </select>
+
+        <!-- Existing color pickers for custom colors -->
+        <div class="colorCustom">
             <label for="visitedColor">Visited Link Color:</label>
             <input type="color" id="visitedColor">
         </div>
-        <div>
+        <div class="colorCustom">
             <label for="unvisitedColor">Unvisited Link Color:</label>
             <input type="color" id="unvisitedColor">
+        </div>
+        <div class="colorPreview">
+            <p>Visited Color Preview: <span id="visitedPreview" style="display:inline-block; width:20px; height:20px;"></span></p>
+            <p>Unvisited Color Preview: <span id="unvisitedPreview" style="display:inline-block; width:20px; height:20px;"></span></p>
         </div>
         <!--div>
             <label for="syncToggle">Sync Click History:</label>
             <input type="checkbox" id="syncToggle">
         </div-->
+        <span id="saved">Saved</span>
         <button id="save" class="button">Save</button>
     </div>
     <script src="popup.js"></script>

@@ -18,15 +18,50 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Save settings when the Save button is clicked
     document.getElementById('save').addEventListener('click', () => {
-        const visitedColor = document.getElementById('visitedColor').value;
-        const unvisitedColor = document.getElementById('unvisitedColor').value;
+        // const visitedColor = document.getElementById('visitedColor').value;
+        // const unvisitedColor = document.getElementById('unvisitedColor').value;
         const isEnabled = document.getElementById('toggleExtension').checked;
         // const syncEnabled = document.getElementById('syncToggle').checked;
+
+        const colorScheme = document.getElementById('colorScheme').value;
+        let visitedColor, unvisitedColor;
+
+        if (colorScheme === 'custom') {
+            visitedColor = document.getElementById('visitedColor').value;
+            unvisitedColor = document.getElementById('unvisitedColor').value;
+        } else {
+            // Define default color pairs for each scheme
+            const colorPairs = {
+                protanopia: { visited: '#0000FF', unvisited: '#FFFF00' }, // Example colors
+                tritanopia: { visited: '#FF00FF', unvisited: '#00FF00' },
+                monochromacy: { visited: '#555555', unvisited: '#AAAAAA' }
+            };
+
+            visitedColor = colorPairs[colorScheme].visited;
+            unvisitedColor = colorPairs[colorScheme].unvisited;
+        }
+
+        // Save selected scheme or custom colors
+        chrome.storage.sync.set({visitedColor, unvisitedColor, colorScheme}, () => {
+            console.log('Settings saved');
+            // Provide user feedback here if desired
+        });
+
 
         chrome.storage.local.set({visitedColor, unvisitedColor, isEnabled}, () => {
             console.log('Settings saved');
             // Optionally, provide feedback to the user that settings have been saved.
         });
+
+        const saveButton = document.getElementById('save');
+        saveButton.textContent = "Saving...";
+
+        setTimeout(function() {
+            saveButton.textContent = 'Saved';
+            setTimeout(function() {
+                saveButton.textContent = 'Save';
+            }, 1000); // 1000 milliseconds delay
+        }, 1000); // 1000 milliseconds delay
     });
 });
 
@@ -42,3 +77,35 @@ document.getElementById('unvisitedColor').addEventListener('change', (event) => 
     // Similar immediate action for the unvisited color.
 });
 
+
+// Add listeners to show/hide color pickers based on scheme selection
+
+document.getElementById('colorScheme').addEventListener('change', (event) => {
+    const colorScheme = event.target.value;
+    const colorPairs = {
+        protanopia: { visited: '#0000FF', unvisited: '#FFFF00' }, // Blue and Yellow
+        tritanopia: { visited: '#FF00FF', unvisited: '#00FF00' }, // Magenta and Green
+        monochromacy: { visited: '#555555', unvisited: '#AAAAAA' } // Different shades of gray
+    };
+
+    if (colorScheme !== 'custom') {
+        // Update the display of color pairs
+        document.getElementById('visitedColor').value = colorPairs[colorScheme].visited;
+        document.getElementById('unvisitedColor').value = colorPairs[colorScheme].unvisited;
+        // Optionally, update visual elements to preview colors
+        document.getElementById('visitedPreview').style.backgroundColor = colorPairs[colorScheme].visited;
+        document.getElementById('unvisitedPreview').style.backgroundColor = colorPairs[colorScheme].unvisited;
+    }
+
+    // Show/hide logic for color pickers as previously described
+    const colorPickers = document.querySelectorAll('.colorCustom');
+    const colorDefault = document.querySelectorAll('.colorPreview');
+
+    if (event.target.value === 'custom') {
+        colorPickers.forEach(picker => picker.style.display = 'block');
+        colorDefault.forEach(preview => preview.style.display = 'none');
+    } else {
+        colorPickers.forEach(picker => picker.style.display = 'none');
+        colorDefault.forEach(preview => preview.style.display = 'block');
+    }
+});
