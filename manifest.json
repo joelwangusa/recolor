@@ -10,9 +10,9 @@
   "action": {
     "default_popup": "popup.html",
     "default_icon": {
-      "16": "images/coolor_extension.png",
-      "48": "images/coolor_extension.png",
-      "128": "images/coolor_extension.png"
+        "16": "images/logo-16x16.png",
+        "48": "images/logo-48x48.png",
+        "128": "images/logo-128x128.png"
     }
   },
   "content_scripts": [
@@ -22,8 +22,8 @@
     }
   ],
   "icons": {
-    "16": "images/coolor_extension.png",
-    "48": "images/coolor_extension.png",
-    "128": "images/coolor_extension.png"
+    "16": "images/logo-16x16.png",
+    "48": "images/logo-48x48.png",
+    "128": "images/logo-128x128.png"
   }
 }
