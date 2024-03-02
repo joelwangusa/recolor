@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Coolor: Link Color Selector</title>
+    <style>
+        body {
+            width: 300px; /* Adjust width as needed */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 20px;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        .container {
+            background-color: #ffffff;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        h3 {
+            color: #333333;
+            margin-top: 0;
+        }
+        label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+        input[type="color"], input[type="checkbox"] {
+            margin-right: 10px;
+        }
+        .button {
+            background-color: #4CAF50; /* Green */
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 4px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h3>Coolor Settings</h3>
+        <div>
+            <label for="toggleExtension">Enable/Disable:</label>
+            <input type="checkbox" id="toggleExtension" checked>
+        </div>
+        <div>
+            <label for="visitedColor">Visited Link Color:</label>
+            <input type="color" id="visitedColor">
+        </div>
+        <div>
+            <label for="unvisitedColor">Unvisited Link Color:</label>
+            <input type="color" id="unvisitedColor">
+        </div>
+        <button id="save" class="button">Save</button>
+    </div>
+    <script src="popup.js"></script>
+</body>
+</html>

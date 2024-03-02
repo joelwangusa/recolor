@@ -1,0 +1,29 @@
+{
+  "manifest_version": 3,
+  "name": "Coolor",
+  "description": "Make everybody's world cooler and colorful",
+  "permissions": ["storage", "activeTab"],
+  "version": "1.0",
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "coolor.html",
+    "default_icon": {
+      "16": "images/coolor_extension.png",
+      "48": "images/coolor_extension.png",
+      "128": "images/coolor_extension.png"
+    }
+  },
+  "content_scripts": [
+    {
+      "js": ["scripts/content.js"],
+      "matches": ["<all_urls>"]
+    }
+  ],
+  "icons": {
+    "16": "images/coolor_extension.png",
+    "48": "images/coolor_extension.png",
+    "128": "images/coolor_extension.png"
+  }
+}
