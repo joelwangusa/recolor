@@ -1,14 +1,20 @@
 // Function to apply styles to links based on click events
-function applyLinkStyles(settings) {
+function applyLinkStyles(data) {
     document.querySelectorAll('a').forEach(link => {
         // Remove previously added event listeners to avoid duplicates
         link.removeEventListener('click', linkClickHandler);
 
         // Apply initial style based on settings
-        link.style.color = settings.unvisitedColor || '#007bff'; // Default unvisited color
+        link.style.color = data.unvisitedColor || '#007bff'; // Default unvisited color
 
         // Add click event listener to change color upon click
-        link.addEventListener('click', linkClickHandler.bind(null, settings.visitedColor || '#551A8B')); // Default visited color
+        link.addEventListener('click', linkClickHandler.bind(null, data.visitedColor || '#551A8B', link.href)); // Default visited color
+
+        // Check clicked history apply the link styles if it is clicked
+        const clickedLinks = data.clickedLinks || {};
+        if (clickedLinks[link.href]) {
+            link.style.color = data.unvisitedColor || '#007bff'; 
+        }
     });
 
     // Check the history
@@ -23,7 +29,7 @@ function applyLinkStyles(settings) {
 }
 
 // Handler for link click events, changes color
-function linkClickHandler(visitedColor, event) {
+function linkClickHandler(visitedColor, url, event) {
     // Change the color after link click
     event.target.style.color = visitedColor;
 
@@ -31,11 +37,13 @@ function linkClickHandler(visitedColor, event) {
     updateLocalStorageWithClick(url);
 
     // Check if syncing is enabled, then update sync storage
-    chrome.storage.sync.get('syncEnabled', function(data) {
+    /** for future use
+    chrome.storage.local.get('syncEnabled', function(data) {
         if (data.syncEnabled) {
             updateSyncStorageWithClick(url);
         }
     });
+    */
 }
 
 function updateLocalStorageWithClick(url) {
@@ -46,6 +54,7 @@ function updateLocalStorageWithClick(url) {
     });
 }
 
+// for future sync storage use
 function updateSyncStorageWithClick(url) {
     chrome.storage.sync.get({clickedLinks: {}}, (result) => {
         let {clickedLinks} = result;
@@ -64,9 +73,9 @@ function updateSyncStorageWithClick(url) {
 
 
 // Observe the DOM for changes and reapply styles
-function observeDOM(settings) {
+function observeDOM(data) {
     const observer = new MutationObserver(() => {
-        applyLinkStyles(settings);
+        applyLinkStyles(data);
     });
 
     observer.observe(document.body, {
@@ -76,10 +85,11 @@ function observeDOM(settings) {
 }
 
 // Initial setup: Get settings and apply styles
-chrome.storage.sync.get(['visitedColor', 'unvisitedColor', 'isEnabled'], (settings) => {
-    if (settings.isEnabled) {
-        applyLinkStyles(settings);
-        observeDOM(settings);
+chrome.storage.local.get(['visitedColor', 'unvisitedColor', 'isEnabled', 'clickedLinks'], (data) => {
+    console.log(data.clickedLinks);
+    if (data.isEnabled) {
+        applyLinkStyles(data);
+        observeDOM(data);
     }
 });
 

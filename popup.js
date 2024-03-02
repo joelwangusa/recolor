@@ -1,15 +1,17 @@
 document.addEventListener('DOMContentLoaded', () => {
     // Load and set the previously savced colors and privacy settings
-    chrome.storage.sync.get(['visitedColor', 'unvisitedColor', 'isEnabled', 'syncEnabled'], (settings) => {
+    chrome.storage.local.get(['visitedColor', 'unvisitedColor', 'isEnabled'], (settings) => {
         if (settings.visitedColor) {
             document.getElementById('visitedColor').value = settings.visitedColor;
         }
         if (settings.unvisitedColor) {
             document.getElementById('unvisitedColor').value = settings.unvisitedColor;
         }
+        /**
         if (settings.syncEnabled) {
             document.getElementById('syncToggle').checked = settings.syncEnabled || false;
         }
+        */
         document.getElementById('toggleExtension').checked = settings.isEnabled ?? true; // Default to true if undefined
 
     });
@@ -19,9 +21,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const visitedColor = document.getElementById('visitedColor').value;
         const unvisitedColor = document.getElementById('unvisitedColor').value;
         const isEnabled = document.getElementById('toggleExtension').checked;
-        const syncEnabled = document.getElementById('syncToggle').checked;
+        // const syncEnabled = document.getElementById('syncToggle').checked;
 
-        chrome.storage.sync.set({visitedColor, unvisitedColor, isEnabled, syncEnabled}, () => {
+        chrome.storage.local.set({visitedColor, unvisitedColor, isEnabled}, () => {
             console.log('Settings saved');
             // Optionally, provide feedback to the user that settings have been saved.
         });
