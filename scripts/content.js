@@ -84,8 +84,9 @@ chrome.storage.local.get(['visitedColor', 'unvisitedColor', 'isEnabled', 'clicke
 });
 
 chrome.runtime.onMessage.addListener(msgObj => {
+    console.log("I am here in background!");
     const msgType = msgObj.type;
-    if (msgType === 'applySettingsAll') {
+    if (msgType === 'applySettingsOnTab') {
         const data = msgObj.data;
         if (data.isEnabled) {
             applyLinkStyles(data);

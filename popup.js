@@ -108,7 +108,7 @@ function save_settings() {
         applySettings();
     });
 }
-
+/*
 function applySettings() {
     chrome.storage.local.get(['visitedColor', 'unvisitedColor', 'isEnabled', 'clickedLinks'], (data) => {
         if (data.isEnabled) {
@@ -119,6 +119,17 @@ function applySettings() {
                         console.log("apply settings changes to active tab!");
                     });
                 });
+            });
+        }
+    });
+}
+*/
+function applySettings() {
+    chrome.storage.local.get(['visitedColor', 'unvisitedColor', 'isEnabled', 'clickedLinks'], (data) => {
+        if (data.isEnabled) {
+            const msgObj = {type:"applySettingsAll", data:data}
+            chrome.runtime.sendMessage(msgObj, function(response) {
+                console.log("apply settings changes to background.js from popup.js!");
             });
         }
     });
