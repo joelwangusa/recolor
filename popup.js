@@ -1,25 +1,39 @@
 document.addEventListener('DOMContentLoaded', () => {
     // Load and set the previously savced colors and privacy settings
-    chrome.storage.local.get(['visitedColor', 'unvisitedColor', 'isEnabled'], (settings) => {
+    chrome.storage.local.get(['visitedColor', 'unvisitedColor', 'isEnabled', 'colorScheme', 'visitedColorCustom', 'unvisitedColorCustom'], (settings) => {
+        const colorPairs = {
+            protanopia: { visited: '#0000FF', unvisited: '#FFFF00' }, // Blue and Yellow
+            tritanopia: { visited: '#FF00FF', unvisited: '#00FF00' }, // Magenta and Green
+            monochromacy: { visited: '#555555', unvisited: '#AAAAAA' } // Different shades of gray
+        }; 
+        // Update the user custom color
         if (settings.visitedColor) {
-            document.getElementById('visitedColor').value = settings.visitedColor;
+            document.getElementById('visitedColorCustom').value = settings.visitedColorCustom;
         }
         if (settings.unvisitedColor) {
-            document.getElementById('unvisitedColor').value = settings.unvisitedColor;
+            document.getElementById('unvisitedColorCustom').value = settings.unvisitedColorCustom;
         }
+
+        // Update Preview color
+        if (settings.colorScheme !== 'custom') {
+            document.getElementById('visitedPreview').style.backgroundColor = colorPairs[settings.colorScheme].visited;
+            document.getElementById('unvisitedPreview').style.backgroundColor = colorPairs[settings.colorScheme].unvisited;            
+        }
+        colorSchemeUIChanges(settings.colorScheme);
         document.getElementById('toggleExtension').checked = settings.isEnabled ?? true; // Default to true if undefined
+        document.getElementById('colorScheme').value = settings.colorScheme ?? "custom"; // Default to custom
     });
 });
 
 
-document.getElementById('visitedColor').addEventListener('change', (event) => {
+document.getElementById('visitedColorCustom').addEventListener('change', (event) => {
     // Immediate feedback or action upon color change. For example:
     console.log(`Visited color changed to: ${event.target.value}`);
     // You could also apply this color to a preview element here.
     save_settings();
 });
 
-document.getElementById('unvisitedColor').addEventListener('change', (event) => {
+document.getElementById('unvisitedColorCustom').addEventListener('change', (event) => {
     console.log(`Unvisited color changed to: ${event.target.value}`);
     // Similar immediate action for the unvisited color.
     save_settings();
@@ -37,26 +51,31 @@ document.getElementById('colorScheme').addEventListener('change', (event) => {
 
     if (colorScheme !== 'custom') {
         // Update the display of color pairs
-        document.getElementById('visitedColor').value = colorPairs[colorScheme].visited;
-        document.getElementById('unvisitedColor').value = colorPairs[colorScheme].unvisited;
+        //document.getElementById('visitedColor').value = colorPairs[colorScheme].visited;
+        //document.getElementById('unvisitedColor').value = colorPairs[colorScheme].unvisited;
         // Optionally, update visual elements to preview colors
         document.getElementById('visitedPreview').style.backgroundColor = colorPairs[colorScheme].visited;
         document.getElementById('unvisitedPreview').style.backgroundColor = colorPairs[colorScheme].unvisited;
     }
 
+    colorSchemeUIChanges(colorScheme);
+    save_settings();
+});
+
+function colorSchemeUIChanges(colorScheme){
     // Show/hide logic for color pickers as previously described
     const colorPickers = document.querySelectorAll('.colorCustom');
     const colorDefault = document.querySelectorAll('.colorPreview');
 
-    if (event.target.value === 'custom') {
+    if (colorScheme === 'custom') {
         colorPickers.forEach(picker => picker.style.display = 'block');
         colorDefault.forEach(preview => preview.style.display = 'none');
     } else {
         colorPickers.forEach(picker => picker.style.display = 'none');
         colorDefault.forEach(preview => preview.style.display = 'block');
     }
-    save_settings();
-});
+}
+
 document.getElementById('toggleExtension').addEventListener('change', (event) => {
     save_settings();
 });
@@ -65,11 +84,13 @@ function save_settings() {
     console.log("saving settings...");
     const isEnabled = document.getElementById('toggleExtension').checked;
     const colorScheme = document.getElementById('colorScheme').value;
+    const visitedColorCustom = document.getElementById('visitedColorCustom').value;
+    const unvisitedColorCustom = document.getElementById('unvisitedColorCustom').value;
     let visitedColor, unvisitedColor;
 
     if (colorScheme === 'custom') {
-        visitedColor = document.getElementById('visitedColor').value;
-        unvisitedColor = document.getElementById('unvisitedColor').value;
+        visitedColor = visitedColorCustom;
+        unvisitedColor = unvisitedColorCustom;
     } else {
         // Define default color pairs for each scheme
         const colorPairs = {
@@ -82,7 +103,7 @@ function save_settings() {
         unvisitedColor = colorPairs[colorScheme].unvisited;
     }
 
-    chrome.storage.local.set({visitedColor, unvisitedColor, colorScheme, isEnabled}, () => {
+    chrome.storage.local.set({visitedColor, unvisitedColor, colorScheme, isEnabled, visitedColorCustom, unvisitedColorCustom}, () => {
         console.log('Settings saved');
         applySettings();
     });

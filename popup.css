@@ -42,6 +42,12 @@ input[type="color"], input[type="checkbox"] {
 #saved {
     display:none;
 }
+.PreviewColorWrapper{
+  width: 40px;
+  height: 16px;
+  padding: 5px;
+  border: 1px solid buttonborder;
+}
 
 /* Toggle Button */
 .switch {
@@ -63,6 +69,11 @@ input[type="color"], input[type="checkbox"] {
   background-color: #888;
   -webkit-transition: .4s;
   transition: .4s;
+}
+
+#bottom {
+  margin: 10px auto;
+  width: 90px;
 }
 
 .slider:before {

@@ -22,17 +22,19 @@
         <!-- Existing color pickers for custom colors -->
         <div class="colorCustom">
             <label for="visitedColor">Visited Link Color:</label>
-            <input type="color" id="visitedColor">
+            <input type="color" id="visitedColorCustom">
         </div>
         <div class="colorCustom">
             <label for="unvisitedColor">Unvisited Link Color:</label>
-            <input type="color" id="unvisitedColor">
+            <input type="color" id="unvisitedColorCustom">
         </div>
         <div class="colorPreview">
-            <p>Visited Color Preview: <span id="visitedPreview" style="display:inline-block; width:20px; height:20px;"></span></p>
-            <p>Unvisited Color Preview: <span id="unvisitedPreview" style="display:inline-block; width:20px; height:20px;"></span></p>
+            <label for="visitedPreview">Visited Color Preview: </label>
+            <div class="PreviewColorWrapper"><span id="visitedPreview" style="display:inline-block; width:40px; height:16px;"></span></div>
+            <label for="unvisitedPreview">Unvisited Color Preview:</label>
+            <div class="PreviewColorWrapper"><span id="unvisitedPreview" style="display:inline-block; width:40px; height:16px;"></span></div>
         </div>
-        <div>
+        <div id="bottom">
             <label class="switch">
                 <input type="checkbox" id="toggleExtension">
                 <div class="slider round">
