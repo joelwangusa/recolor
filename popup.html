@@ -10,13 +10,13 @@
 </head>
 <body>
     <div class="container">
-        <h3>Coolor</h3>
+        <h3>ReColor Links</h3>
         <label for="colorScheme">Color Scheme:</label>
         <select id="colorScheme">
             <option value="custom">Custom</option>
-            <option value="protanopia">Protanopia/Deuteranopia</option>
-            <option value="tritanopia">Tritanopia</option>
-            <option value="monochromacy">Monochromacy</option>
+            <option value="protanopia">Red-green color vision deficiency</option>
+            <option value="tritanopia">Blue-yellow color vision deficiency</option>
+            <option value="monochromacy">Complete color vision deficiency</option>
         </select>
 
         <!-- Existing color pickers for custom colors -->
@@ -35,7 +35,12 @@
         <div>
             <label class="switch">
                 <input type="checkbox" id="toggleExtension">
-                <span class="slider round"></span>
+                <div class="slider round">
+                    <!--ADDED HTML -->
+                    <span class="on">ON</span>
+                    <span class="off">OFF</span>
+                    <!--END-->
+                </div>
             </label>
         </div>
     </div>

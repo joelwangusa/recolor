@@ -35,15 +35,6 @@ function linkClickHandler(visitedColor, url, event) {
 
     // Update local storage with every click
     updateLocalStorageWithClick(url);
-
-    // Check if syncing is enabled, then update sync storage
-    /** for future use
-    chrome.storage.local.get('syncEnabled', function(data) {
-        if (data.syncEnabled) {
-            updateSyncStorageWithClick(url);
-        }
-    });
-    */
 }
 
 function updateLocalStorageWithClick(url) {
@@ -86,10 +77,20 @@ function observeDOM(data) {
 
 // Initial setup: Get settings and apply styles
 chrome.storage.local.get(['visitedColor', 'unvisitedColor', 'isEnabled', 'clickedLinks'], (data) => {
-    console.log(data.clickedLinks);
     if (data.isEnabled) {
         applyLinkStyles(data);
         observeDOM(data);
     }
 });
 
+chrome.runtime.onMessage.addListener(msgObj => {
+    const msgType = msgObj.type;
+    if (msgType === 'applySettingsAll') {
+        const data = msgObj.data;
+        if (data.isEnabled) {
+            applyLinkStyles(data);
+            observeDOM(data);
+        }
+    }
+    return true;
+});

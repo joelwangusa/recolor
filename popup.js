@@ -82,15 +82,23 @@ function save_settings() {
         unvisitedColor = colorPairs[colorScheme].unvisited;
     }
 
-    // Save selected scheme or custom colors
-    chrome.storage.sync.set({visitedColor, unvisitedColor, colorScheme}, () => {
+    chrome.storage.local.set({visitedColor, unvisitedColor, colorScheme, isEnabled}, () => {
         console.log('Settings saved');
-        // Provide user feedback here if desired
+        applySettings();
     });
+}
 
-
-    chrome.storage.local.set({visitedColor, unvisitedColor, isEnabled}, () => {
-        console.log('Settings saved');
-        // Optionally, provide feedback to the user that settings have been saved.
+function applySettings() {
+    chrome.storage.local.get(['visitedColor', 'unvisitedColor', 'isEnabled', 'clickedLinks'], (data) => {
+        if (data.isEnabled) {
+            chrome.tabs.query({active: true, currentWindow: true}, tabs => {
+                tabs.forEach(tab => {
+                    const msgObj = {type:"applySettingsAll", data:data}
+                    chrome.tabs.sendMessage(tab.id, msgObj, function(response) {
+                        console.log("apply settings changes to active tab!");
+                    });
+                });
+            });
+        }
     });
 }

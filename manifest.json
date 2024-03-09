@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "Coolor",
+  "name": "ReColor Link",
   "description": "Make everybody's world cooler and colorful",
   "permissions": ["storage", "activeTab"],
   "version": "1.0",
