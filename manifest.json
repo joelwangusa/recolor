@@ -1,9 +1,9 @@
 {
   "manifest_version": 3,
   "name": "Recolor Links",
-  "description": "Elevate web accessibility by changing the color of visited links to accommodate diverse visual needs. Make the web more inclusive for everyone including color-deficient users.",
+  "description": "Elevate web accessibility by changing the color of visited links. Enjoy a better web browsing experience with a more friendly color contrast.",
   "permissions": ["storage", "activeTab"],
-  "version": "1.0",
+  "version": "0.1",
   "background": {
     "service_worker": "background.js"
   },

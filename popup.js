@@ -6,13 +6,16 @@ document.addEventListener('DOMContentLoaded', () => {
             tritanopia: { visited: '#FF00FF', unvisited: '#00FF00' }, // Magenta and Green
             monochromacy: { visited: '#555555', unvisited: '#AAAAAA' } // Different shades of gray
         }; 
-        // Update the user custom color
-        if (settings.visitedColor) {
-            document.getElementById('visitedColorCustom').value = settings.visitedColorCustom;
-        }
-        if (settings.unvisitedColor) {
-            document.getElementById('unvisitedColorCustom').value = settings.unvisitedColorCustom;
-        }
+        // set a default color scheme if it's not set
+        const defaultColor = colorPairs['protanopia'];
+        if (!settings.colorScheme) settings.colorScheme = 'custom';
+        // set a default color if it's not set
+        if (settings.visitedColorCustom === undefined) settings.visitedColorCustom = defaultColor.visited;
+        if (settings.unvisitedColorCustom === undefined) settings.unvisitedColorCustom = defaultColor.unvisited;
+
+        // update the color pickers
+        document.getElementById('visitedColorCustom').value = settings.visitedColorCustom;
+        document.getElementById('unvisitedColorCustom').value = settings.unvisitedColorCustom;
 
         // Update Preview color
         if (settings.colorScheme !== 'custom' && colorPairs.hasOwnProperty(settings.colorScheme)) {
@@ -21,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         colorSchemeUIChanges(settings.colorScheme);
         document.getElementById('toggleExtension').checked = settings.isEnabled ?? true; // Default to true if undefined
-        document.getElementById('colorScheme').value = settings.colorScheme ?? "custom"; // Default to custom
+        document.getElementById('colorScheme').value = settings.colorScheme; // Default to custom
     });
 });
 
