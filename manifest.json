@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
-  "name": "ReColor Link",
-  "description": "Make everybody's world cooler and colorful",
+  "name": "Recolor Links",
+  "description": "Elevate web accessibility by changing the color of visited links to accommodate diverse visual needs. Make the web more inclusive for everyone including color-deficient users.",
   "permissions": ["storage", "activeTab"],
   "version": "1.0",
   "background": {

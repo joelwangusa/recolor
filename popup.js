@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         // Update Preview color
-        if (settings.colorScheme !== 'custom') {
+        if (settings.colorScheme !== 'custom' && colorPairs.hasOwnProperty(settings.colorScheme)) {
             document.getElementById('visitedPreview').style.backgroundColor = colorPairs[settings.colorScheme].visited;
             document.getElementById('unvisitedPreview').style.backgroundColor = colorPairs[settings.colorScheme].unvisited;            
         }
