@@ -1,5 +1,8 @@
 // Function to apply styles to links based on click events
 function applyLinkStyles(data) {
+    const clickedLinks = data.clickedLinks || {};
+    console.log(data.isEnabled)
+
     document.querySelectorAll('a').forEach(link => {
         // Remove previously added event listeners to avoid duplicates
         link.removeEventListener('click', linkClickHandler);
@@ -8,23 +11,12 @@ function applyLinkStyles(data) {
         link.style.color = data.unvisitedColor || '#007bff'; // Default unvisited color
 
         // Add click event listener to change color upon click
-        link.addEventListener('click', linkClickHandler.bind(null, data.visitedColor || '#551A8B', link.href)); // Default visited color
+        link.addEventListener('click', linkClickHandler.bind(null, data.visitedColor || '#FF5733', link.href)); // Default visited color
 
         // Check clicked history apply the link styles if it is clicked
-        const clickedLinks = data.clickedLinks || {};
         if (clickedLinks[link.href]) {
-            link.style.color = data.unvisitedColor || '#007bff'; 
+            link.style.color = data.visitedColor || '#FF5733'; 
         }
-    });
-
-    // Check the history
-    chrome.storage.local.get(['clickedLinks'], (result) => {
-        const clickedLinks = result.clickedLinks || {};
-        document.querySelectorAll('a').forEach((link) => {
-            if (clickedLinks[link.href]) {
-                link.style.color = '#FF5733'; // Example: Change color to a distinct orange
-            }
-        });
     });
 }
 

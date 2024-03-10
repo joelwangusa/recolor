@@ -12,6 +12,8 @@ document.addEventListener('DOMContentLoaded', () => {
         // set a default color if it's not set
         if (settings.visitedColorCustom === undefined) settings.visitedColorCustom = defaultColor.visited;
         if (settings.unvisitedColorCustom === undefined) settings.unvisitedColorCustom = defaultColor.unvisited;
+        console.log("settings.isEnabled: ", settings.isEnabled);
+        console.log("settings.colorScheme: ", settings.colorScheme);
 
         // update the color pickers
         document.getElementById('visitedColorCustom').value = settings.visitedColorCustom;
@@ -23,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('unvisitedPreview').style.backgroundColor = colorPairs[settings.colorScheme].unvisited;            
         }
         colorSchemeUIChanges(settings.colorScheme);
-        document.getElementById('toggleExtension').checked = settings.isEnabled ?? true; // Default to true if undefined
+        document.getElementById('toggleExtension').checked = settings.isEnabled ?? false; // Default to true if undefined
         document.getElementById('colorScheme').value = settings.colorScheme; // Default to custom
     });
 });
